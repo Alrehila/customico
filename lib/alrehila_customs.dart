@@ -4,6 +4,7 @@ library alrehila_customs;
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;
@@ -99,7 +100,7 @@ class _CustomCheckboxState extends State<CustomCheckbox> {
                         child: Text(
                           widget.stext,
                           style: const TextStyle(
-                            fontSize: 11,
+                            fontSize: 13,
                             decoration: TextDecoration.underline,
                             color: Colors.blue,
                           ),
@@ -316,11 +317,13 @@ class CountryCodes {
   final String name;
   final String code;
   final String flagImagePath;
+  final String phoneformat;
 
   CountryCodes({
     required this.name,
     required this.code,
     required this.flagImagePath,
+    required this.phoneformat,
   });
 }
 
@@ -330,112 +333,137 @@ class CountryListController extends GetxController {
       name: 'United States',
       code: '+1',
       flagImagePath: 'assets/countries/us.jpg',
+      phoneformat: '(###) ###-####',
     ),
     CountryCodes(
       name: 'India',
       code: '+91',
       flagImagePath: 'assets/countries/in.png',
+      phoneformat: '### #######',
     ),
     CountryCodes(
       name: 'Egypt',
       code: '+20',
       flagImagePath: 'assets/countries/eg.jpg',
+      phoneformat: '### #######',
     ),
     CountryCodes(
       name: 'Algeria',
       code: '+213',
       flagImagePath: 'assets/countries/ae.jpg',
+      phoneformat: '### #######',
     ),
     CountryCodes(
       name: 'Saudi Arabia',
       code: '+966',
       flagImagePath: 'assets/countries/sa.jpg',
+      phoneformat: '### #######',
     ),
     CountryCodes(
       name: 'Iraq',
       code: '+964',
       flagImagePath: 'assets/countries/iz.jpg',
+      phoneformat: '### #######',
     ),
     CountryCodes(
       name: 'Yemen',
       code: '+967',
       flagImagePath: 'assets/countries/ym.jpg',
+      phoneformat: '### #######',
     ),
     CountryCodes(
       name: 'Syria',
       code: '+963',
       flagImagePath: 'assets/countries/sy.jpg',
+      phoneformat: '### #######',
     ),
     CountryCodes(
       name: 'Jordan',
       code: '+962',
       flagImagePath: 'assets/countries/jo.jpg',
+      phoneformat: '### #######',
     ),
     CountryCodes(
       name: 'Lebanon',
       code: '+961',
       flagImagePath: 'assets/countries/le.jpg',
+      phoneformat: '### #######',
     ),
     CountryCodes(
       name: 'United Arab Emirates',
       code: '+971',
       flagImagePath: 'assets/countries/ae.jpg',
+      phoneformat: '### #######',
     ),
     CountryCodes(
       name: 'Oman',
       code: '+968',
       flagImagePath: 'assets/countries/om.jpg',
+      phoneformat: '### #######',
     ),
     CountryCodes(
       name: 'Qatar',
       code: '+974',
       flagImagePath: 'assets/countries/qa.jpg',
+      phoneformat: '### #######',
     ),
     CountryCodes(
       name: 'Kuwait',
       code: '+965',
       flagImagePath: 'assets/countries/ku.jpg',
+      phoneformat: '### #######',
     ),
     CountryCodes(
       name: 'Libya',
       code: '+218',
       flagImagePath: 'assets/countries/ly.jpg',
+      phoneformat: '### #######',
     ),
     CountryCodes(
       name: 'Morocco',
       code: '+212',
       flagImagePath: 'assets/countries/mo.jpg',
+      phoneformat: '### #######',
     ),
     CountryCodes(
       name: 'Somalia',
       code: '+252',
       flagImagePath: 'assets/countries/so.jpg',
+      phoneformat: '### #######',
     ),
     CountryCodes(
       name: 'Tunisia',
       code: '+216',
       flagImagePath: 'assets/countries/ts.jpg',
+      phoneformat: '### #######',
     ),
     CountryCodes(
       name: 'Sudan',
       code: '+249',
       flagImagePath: 'assets/countries/su.jpg',
+      phoneformat: '### #######',
     ),
     CountryCodes(
       name: 'Bahrain',
       code: '+973',
       flagImagePath: 'assets/countries/ba.jpg',
+      phoneformat: '### #######',
     ),
   ];
 
+  String selectedCountryName = '';
   String selectedCountryCode = '';
+  String selectedCountryFlagPath = '';
+  String selectedCountryFormat = '';
 
   @override
   void onInit() {
+    selectedCountryName = countries[0].name;
     selectedCountryCode = countries[0].code;
+    selectedCountryFlagPath = countries[0].flagImagePath;
+    selectedCountryFormat = countries[0].phoneformat;
     super.onInit();
   }
-
 }
 
 class CustomPhoneForm extends StatelessWidget {
@@ -469,56 +497,85 @@ class CustomPhoneForm extends StatelessWidget {
         bottom: 20,
       ),
       child: TextFormField(
-        keyboardType: const TextInputType.numberWithOptions(decimal: true),
+        inputFormatters: [
+          if (countryListController.selectedCountryFormat != '')
+            MaskTextInputFormatter(
+              mask: countryListController.countries
+                  .firstWhere(
+                    (country) =>
+                        country.code ==
+                        countryListController.selectedCountryCode,
+                  )
+                  .phoneformat,
+            ),
+        ],
+        keyboardType: const TextInputType.numberWithOptions(
+          decimal: true,
+        ),
         validator: valid,
         controller: mycontroller,
         decoration: InputDecoration(
           prefixIcon: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const SizedBox(width: 8),
+              const SizedBox(
+                width: 8,
+              ),
               InkWell(
                 onTap: () {
                   showMenu(
                     context: context,
                     position: const RelativeRect.fromLTRB(0, 0, 0, 0),
-                    items: countryListController.countries
-                        .map((CountryCodes country) {
-                      return PopupMenuItem<String>(
-                        value: country.code,
-                        child: Row(
-                          children: <Widget>[
-                            Image.asset(
-                              country.flagImagePath,
-                              width: 24,
-                              height: 16,
-                            ),
-                            const SizedBox(width: 8),
-                            Text(country.name),
-                          ],
-                        ),
-                      );
-                    }).toList(),
-                  ).then((value) {
-                    if (value != null) {
-                      countryListController.selectedCountryCode = value;
-                      onCountryChanged?.call(value);
-                    }
-                  });
+                    items: countryListController.countries.map(
+                      (CountryCodes country) {
+                        return PopupMenuItem<String>(
+                          value: country.code,
+                          child: Row(
+                            children: <Widget>[
+                              Image.asset(
+                                country.flagImagePath,
+                                width: 24,
+                                height: 16,
+                              ),
+                              const SizedBox(
+                                width: 8,
+                              ),
+                              Text(
+                                country.name,
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ).toList(),
+                  ).then(
+                    (value) {
+                      if (value != null) {
+                        countryListController.selectedCountryCode = value;
+                        onCountryChanged?.call(value);
+                      }
+                    },
+                  );
                 },
                 child: Row(
                   children: <Widget>[
                     Image.asset(
                       countryListController.countries
-                          .firstWhere((country) =>
-                              country.code ==
-                              countryListController.selectedCountryCode)
+                          .firstWhere(
+                            (country) =>
+                                country.code ==
+                                countryListController.selectedCountryCode,
+                          )
                           .flagImagePath,
                       width: 24,
                       height: 16,
                     ),
-                    const SizedBox(width: 8),
-                    Text(countryListController.selectedCountryCode),
+                    const SizedBox(
+                      width: 8,
+                    ),
+                    Text(
+                      countryListController.selectedCountryCode,
+                    ),
                   ],
                 ),
               ),

@@ -1,7 +1,7 @@
-name: alrehila_customs
-description: A new Flutter package project that create customs to make it easier for developer.
-version: 0.0.1
-homepage: https://github.com/Alrehila/customs
+name: customico
+description: new package project that create customs to make it easier for developer.
+version: 0.0.8
+homepage: https://github.com/Alrehila/customico
 
 environment:
   sdk: '>=3.0.6 <4.0.0'
@@ -11,6 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
   get: ^4.6.5
+  mask_text_input_formatter: ^2.5.0
 
 dev_dependencies:
   flutter_test:
@@ -20,7 +21,7 @@ dev_dependencies:
 flutter:
 
   assets:
-    - assets/countries
+    - assets/countries/
     
   # fonts:
   #   - family: Schyler

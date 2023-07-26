@@ -1,5 +1,5 @@
+import 'package:customico/alrehila_customs.dart';
 import 'package:flutter/material.dart';
-import 'package:alrehila_customs/alrehila_customs.dart';
 
 void main() {
   CustomButton(
