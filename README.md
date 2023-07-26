@@ -17,4 +17,4 @@ Customize the appearance and behavior of app bars
 Set a custom title for your app bar
 Get started with these custom components in your Flutter project today!
 
-For more details, documentation, and examples, visit [GitHub repository](https://github.com/alrehila_customs) or check out the [pub.dev](https://pub.dev/publishers/alrehila.online/packages) page.
+For more details, documentation, and examples, visit [GitHub repository](https://github.com/Alrehila/alrehila_customs) or check out the [pub.dev](https://pub.dev/publishers/alrehila.online/packages) page.
