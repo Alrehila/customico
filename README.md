@@ -1,6 +1,10 @@
 ## Custom Button and Custom AppBar for Flutter
 This Flutter package provides custom implementations of a button and an app bar, allowing you to easily incorporate them into your Flutter applications.
 
+<a href="https://pub.dev/packages/flutter_customs" target="_blank">
+  <img alt="Static Badge" src="https://img.shields.io/badge/pub-0.0.4-blue">
+</a>
+
 ## Custom Button
 The CustomButton widget is a customizable button that allows you to specify the button text and an onPressed callback function. It extends the ElevatedButton widget from the Flutter framework. You can easily create buttons with custom styles and behaviors by using this widget.
 
